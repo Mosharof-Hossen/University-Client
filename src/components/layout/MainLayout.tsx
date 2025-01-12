@@ -1,35 +1,33 @@
 import { Layout, Menu, MenuProps, } from 'antd';
 import logo from "../../assets/images/logo.png"
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 
-// const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
-//     (icon, index) => ({
-//         key: String(index + 1),
-//         icon: React.createElement(icon),
-//         label: `nav ${index + 1}`,
-//     }),
-// );
 
 const items: MenuProps["items"] = [
     {
-        key: '1',
-        label: "Dashboard"
+        key: 'Dashboard',
+        label: <NavLink to={"/admin/dashboard"}>Dashboard</NavLink>
     },
     {
-        key: '2',
-        label: "Profile",
+        key: 'User Management',
+        label: "User Management",
         children: [
             {
-                key: "21",
-                label: "User Profile"
+                key: "Create Admin",
+                label: <NavLink to={"/admin/create-admin"}>Create Admin</NavLink>
             },
             {
-                key: "22",
-                label: "Admin Profile"
-            }
+                key: "Create Faculty",
+                label: <NavLink to={"/admin/create-faculty"}>Create Faculty</NavLink>
+            },
+            {
+                key: "Create Student",
+                label: <NavLink to={"/admin/create-student"}>Create Student</NavLink>
+            },
+
         ]
     },
 ]
@@ -47,8 +45,8 @@ const MainLayout = () => {
                     console.log(collapsed, type);
                 }}
             >
-                <div style={{display:"flex",justifyContent:"center", justifyItems:"center"}} >
-                    <img src={logo} alt="" style={{ width:"60px"}} />
+                <div style={{ display: "flex", justifyContent: "center", justifyItems: "center" }} >
+                    <img src={logo} alt="" style={{ width: "60px" }} />
                 </div>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
             </Sider>
