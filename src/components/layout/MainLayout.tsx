@@ -1,21 +1,42 @@
-import React from 'react';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu, } from 'antd';
+import { Layout, Menu, MenuProps, } from 'antd';
+import logo from "../../assets/images/logo.png"
+import { Outlet } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 
-const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
-    (icon, index) => ({
-        key: String(index + 1),
-        icon: React.createElement(icon),
-        label: `nav ${index + 1}`,
-    }),
-);
+// const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
+//     (icon, index) => ({
+//         key: String(index + 1),
+//         icon: React.createElement(icon),
+//         label: `nav ${index + 1}`,
+//     }),
+// );
+
+const items: MenuProps["items"] = [
+    {
+        key: '1',
+        label: "Dashboard"
+    },
+    {
+        key: '2',
+        label: "Profile",
+        children: [
+            {
+                key: "21",
+                label: "User Profile"
+            },
+            {
+                key: "22",
+                label: "Admin Profile"
+            }
+        ]
+    },
+]
 
 const MainLayout = () => {
     return (
-        <Layout>
+        <Layout style={{ height: '100vh' }}>
             <Sider
                 breakpoint="lg"
                 collapsedWidth="0"
@@ -26,11 +47,17 @@ const MainLayout = () => {
                     console.log(collapsed, type);
                 }}
             >
-                <div className="demo-logo-vertical" />
+                <div style={{display:"flex",justifyContent:"center", justifyItems:"center"}} >
+                    <img src={logo} alt="" style={{ width:"60px"}} />
+                </div>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, }} />
+                <Header style={{ padding: 0, }} >
+                    <div style={{ textAlign: "center", color: "white" }}>
+                        <h1>HSTU</h1>
+                    </div>
+                </Header>
                 <Content style={{ margin: '24px 16px 0' }}>
                     <div
                         style={{
@@ -38,7 +65,7 @@ const MainLayout = () => {
                             minHeight: 360,
                         }}
                     >
-                        content
+                        <Outlet></Outlet>
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
