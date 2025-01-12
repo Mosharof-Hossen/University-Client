@@ -1,11 +1,10 @@
+import MainLayout from "./components/layout/MainLayout"
 
 
 function App() {
 
   return (
-    <div>
-      university
-    </div>
+    <MainLayout></MainLayout>
   )
 }
 
