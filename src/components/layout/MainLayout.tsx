@@ -1,7 +1,8 @@
 import { Layout, Menu, } from 'antd';
 import logo from "../../assets/images/logo.png"
-import {  Outlet } from 'react-router-dom';
-import { adminSideBarItems } from '../../routes/admin.routes';
+import { Outlet } from 'react-router-dom';
+import { sidebarItemsGenerator } from '../../utils/sidebarItemsGenerator';
+import { adminPaths } from '../../routes/admin.routes';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -27,7 +28,7 @@ const MainLayout = () => {
                     theme="dark"
                     mode="inline"
                     defaultSelectedKeys={['4']}
-                    items={adminSideBarItems}
+                    items={sidebarItemsGenerator(adminPaths, "admin")}
                 />
             </Sider>
             <Layout>

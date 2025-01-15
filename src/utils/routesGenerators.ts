@@ -5,7 +5,7 @@ type TRoute = {
     element: ReactNode
 }
 
-type TUserPath = {
+export type TUserPath = {
     name: string,
     path?: string,
     element?: ReactNode,
@@ -31,6 +31,6 @@ export const routeGenerator = (items: TUserPath[]) => {
         }
         return acc
     }, [])
-    
+
     return routes
 }
