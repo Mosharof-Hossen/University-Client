@@ -4,11 +4,13 @@ import { sidebarItemsGenerator } from '../../utils/sidebarItemsGenerator';
 import { adminPaths } from '../../routes/admin.routes';
 import { facultyPaths } from '../../routes/faculty.routes';
 import { studentPaths } from '../../routes/student.route';
+import { useAppDispatch } from '../../redux/hooks';
+import { logout } from '../../redux/features/auth/authSlice';
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
-
+    const dispatch = useAppDispatch();
     const userRole = {
         ADMIN: "admin",
         FACULTY: "faculty",
@@ -29,6 +31,11 @@ const Sidebar = () => {
 
         default:
             break;
+    }
+
+    const handleLogout = () => {
+        console.log("ok");
+        dispatch(logout());
     }
 
 
@@ -52,6 +59,14 @@ const Sidebar = () => {
                 defaultSelectedKeys={['4']}
                 items={sideBarItems}
             />
+            <Menu
+                theme="dark"
+                mode="inline"
+                // style={{color:"red"}}
+                defaultSelectedKeys={['4']}
+                items={[{ key: "Logout", label: <span onClick={() => handleLogout()}>Logout</span> }]}
+            />
+
         </Sider>
     );
 };
