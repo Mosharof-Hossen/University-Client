@@ -1,5 +1,4 @@
-import React from 'react';
-import { useGetAllSemestersQuery } from '../../../redux/features/Academic Semester/academicSemester';
+import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
 
 const AcademicSemester = () => {
     const { data } = useGetAllSemestersQuery(undefined);
