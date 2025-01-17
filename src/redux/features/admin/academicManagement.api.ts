@@ -5,7 +5,13 @@ const academicSemesterApi = baseApi.injectEndpoints({
         getAllSemesters: builder.query({
             query: () => ({
                 url: "/academic-semesters"
-            })
+            }),
+            transformResponse: (res) => {
+                return {
+                    data: res.data.result,
+                    meta: res.data.meta
+                }
+            }
         }),
         addAcademicSemester: builder.mutation({
             query: (data) => ({
