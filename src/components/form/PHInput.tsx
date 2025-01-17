@@ -14,7 +14,7 @@ const PHInput = ({ name, type, label }: TInputProps) => {
                 name={name}
                 render={({ field }) => (
                     <Form.Item label={label}>
-                        <Input {...field} type={type} id={name} size='large'></Input>
+                        <Input {...field} type={type} id={name} size='large' ></Input>
                     </Form.Item>
                 )}
             />

@@ -11,7 +11,14 @@ const PHForm = ({ onSubmit, children }: TFormProps) => {
     const methods = useForm();
     return (
         <FormProvider {...methods}>
-            <Form style={{ border: "1px solid black", padding:"30px", borderRadius:"15px" }} layout='vertical' onFinish={methods.handleSubmit(onSubmit)}>
+            <Form
+                style={{
+                    border: "1px solid gray",
+                    padding: "30px", borderRadius: "15px"
+                }}
+                layout='vertical'
+                onFinish={methods.handleSubmit(onSubmit)}
+            >
                 {children}
             </Form>
         </FormProvider >
