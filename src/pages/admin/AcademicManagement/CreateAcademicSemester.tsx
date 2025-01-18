@@ -9,6 +9,7 @@ import { academicSemesterSchema } from "../../../Schemas/academicSemester.Schema
 import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagement.api";
 import { toast } from "sonner";
 import { TResponse } from "../../../types/global";
+import { TAcademicSemester } from "../../../types/academicManagement.type";
 
 // name: 'Autumn' | 'Summer' | 'Fall';
 // code: '01' | '02' | '03';
@@ -36,12 +37,12 @@ const CreateAcademicSemester = () => {
             endMonth: data.endMonth
         }
         try {
-            const res = await addAcademicSemester(semesterData) as TResponse;
-   
-            if (res?.error) {
+            const res = await addAcademicSemester(semesterData) as TResponse<TAcademicSemester>;
+            console.log(res.data);
+            if (res.error) {
                 toast.error(res.error?.data.message)
             } else {
-                toast.success(res.data?.message)
+                toast.success("Academic Semester is created successfully")
             }
         } catch (err) {
             toast.error("Something Went wrong...")
