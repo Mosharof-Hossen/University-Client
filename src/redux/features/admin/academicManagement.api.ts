@@ -34,7 +34,6 @@ const academicSemesterApi = baseApi.injectEndpoints({
         }),
 
         // ---------------------------- Academic Faculty----------------
-
         getallAcademicFaculty: builder.query({
             query: () => ({
                 url: "/academic-faculties",
@@ -53,9 +52,19 @@ const academicSemesterApi = baseApi.injectEndpoints({
                 method: "POST",
                 body: data
             })
+        }),
+
+        // ----------------------------- Academic Department ------------------
+        getAllAcademicDepartment: builder.query({
+            query: () => ({
+                url: "/academic-department",
+                method: "GET"
+            }),
+            transformResponse: (response) => {
+                console.log(response);
+                return response;
+            }
         })
-
-
 
 
 
@@ -65,4 +74,4 @@ const academicSemesterApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation, useAddAcademicFacultyMutation, useGetallAcademicFacultyQuery } = academicSemesterApi;
+export const { useGetAllAcademicDepartmentQuery, useGetAllSemestersQuery, useAddAcademicSemesterMutation, useAddAcademicFacultyMutation, useGetallAcademicFacultyQuery } = academicSemesterApi;
