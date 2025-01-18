@@ -3,48 +3,35 @@ import { Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 
 interface DataType {
-    key: React.Key;
+    key: string;
     name: string;
-    age: number;
-    address: string;
+    academicFaculty: string;
 }
 
 const columns: TableColumnsType<DataType> = [
     {
-        title: 'Name',
+        title: 'Department',
         dataIndex: 'name',
-        // specify the condition of filtering result
-        // here is that finding the name started with `value`
-        onFilter: (value, record) => record.name.indexOf(value as string) === 0,
         sorter: (a, b) => a.name.length - b.name.length,
         sortDirections: ['descend'],
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
-        defaultSortOrder: 'descend',
-        sorter: (a, b) => a.age - b.age,
+        title: 'Academic Faculty',
+        dataIndex: 'academicFaculty',
+        sorter: (a, b) => a.name.length - b.name.length,
+        sortDirections: ['descend'],
     },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-        filters: [
-            {
-                text: 'London',
-                value: 'London',
-            },
-            {
-                text: 'New York',
-                value: 'New York',
-            },
-        ],
-        onFilter: (value, record) => record.address.indexOf(value as string) === 0,
-    },
+
 ];
 
 const AcademicDepartment = () => {
-    const {data} = useGetAllAcademicDepartmentQuery(undefined);
-    
+    const { data } = useGetAllAcademicDepartmentQuery(undefined);
+    const tableData = data?.data?.map((row) => ({
+        key: row._id,
+        name: row.name,
+        academicFaculty: row.academicFaculty.name
+    }))
+
     const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
@@ -52,7 +39,7 @@ const AcademicDepartment = () => {
     return (
         <Table<DataType>
             columns={columns}
-            // dataSource={data}
+            dataSource={tableData}
             onChange={onChange}
             showSorterTooltip={{ target: 'sorter-icon' }}
         />

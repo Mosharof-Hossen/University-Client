@@ -1,4 +1,4 @@
-import { TAcademicFaculty, TAcademicSemester } from "../../../types/academicManagement.type";
+import { TAcademicDepartment, TAcademicFaculty, TAcademicSemester } from "../../../types/academicManagement.type";
 import { TQueryParams, TResponseRedux } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 
@@ -60,9 +60,9 @@ const academicSemesterApi = baseApi.injectEndpoints({
                 url: "/academic-department",
                 method: "GET"
             }),
-            transformResponse: (response) => {
+            transformResponse: (response: TResponseRedux<TAcademicDepartment[]>) => {
                 console.log(response);
-                return response;
+                return {data:response.data};
             }
         }),
 

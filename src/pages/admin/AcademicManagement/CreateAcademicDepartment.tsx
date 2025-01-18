@@ -34,7 +34,7 @@ const CreateAcademicDepartment = () => {
                 toast.success("Department Created Successfully")
             }
         } catch (err) {
-            console.log(err);
+            toast.error("Something Went wrong.")
         }
     }
 
