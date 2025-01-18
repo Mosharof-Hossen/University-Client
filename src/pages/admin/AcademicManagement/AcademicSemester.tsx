@@ -1,8 +1,10 @@
 import { Table, TableColumnsType, TableProps } from "antd";
 import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useState } from "react";
+import { TQueryParams } from "../../../types/global";
 
 interface DataType {
-    _id: string,
+    key: string,
     name: string,
     startMonth: string,
     endMonth: string,
@@ -16,26 +18,16 @@ const columns: TableColumnsType<DataType> = [
         showSorterTooltip: { target: 'full-header' },
         filters: [
             {
-                text: 'Joe',
-                value: 'Joe',
+                text: 'Autumn',
+                value: 'Autumn',
             },
             {
-                text: 'Jim',
-                value: 'Jim Red',
+                text: 'Summer',
+                value: 'Summer',
             },
             {
-                text: 'Submenu',
-                value: 'Submenu',
-                children: [
-                    {
-                        text: 'Green',
-                        value: 'Green',
-                    },
-                    {
-                        text: 'Black',
-                        value: 'Black',
-                    },
-                ],
+                text: 'Fall',
+                value: 'Fall',
             },
         ],
     },
@@ -59,19 +51,28 @@ const columns: TableColumnsType<DataType> = [
 
 
 const AcademicSemester = () => {
-
-    const { data: semesters } = useGetAllSemestersQuery(undefined);
-    console.log(semesters);
+    const [params, setParams] = useState<TQueryParams[]>([]);
+    const { data: semesters, isFetching } = useGetAllSemestersQuery(params);
     const tableData = semesters?.data?.map(({ _id, name, startMonth, endMonth, year }) => ({
-        key:_id, name, startMonth, endMonth, year
+        key: _id, name, startMonth, endMonth, year
     }))
 
 
     const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-        console.log('params', pagination, filters, sorter, extra);
+        console.log('params', { filters }, { extra });
+        if (extra.action === "filter") {
+            const queryParams:TQueryParams[] = [];
+
+            filters.name?.forEach((item) => {
+                queryParams.push({ name: "name", value: item });
+            })
+
+            setParams(queryParams)
+        }
     };
     return (
         <Table<DataType>
+            loading={isFetching}
             columns={columns}
             dataSource={tableData}
             onChange={onChange}
