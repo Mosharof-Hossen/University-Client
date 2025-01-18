@@ -4,14 +4,25 @@ import { academicFacultySchema } from '../../../Schemas/academicFaculty.Schema';
 import PHInput from '../../../components/form/PHInput';
 import { Button } from 'antd';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { useAddAcademicFacultyMutation } from '../../../redux/features/admin/academicManagement.api';
+import { TResponse } from '../../../types/global';
+import { TAcademicFaculty } from '../../../types/academicManagement.type';
+import { toast } from 'sonner';
 
 const CreateAcademicFaculty = () => {
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const [addAcademicFaculty] = useAddAcademicFacultyMutation();
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         console.log(data);
         try {
-            console.log(data);
+            const res = await addAcademicFaculty(data) as TResponse<TAcademicFaculty>;
+            console.log(res);
+            if (res.error) {
+                toast.error(res.error.data.message)
+            } else {
+                toast.success("Academic Faculty created Successfully")
+            }
         } catch (err) {
-            console.log(err);
+            toast.error("Something went wrong.")
         }
     }
     return (

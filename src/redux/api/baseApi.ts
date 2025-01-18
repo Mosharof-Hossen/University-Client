@@ -19,8 +19,8 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs, BaseQueryApi, DefinitionType> = async (args, api, extraOptions): Promise<any> => {
     let result = await baseQuery(args, api, extraOptions);
     // console.log(result);
-    if(result.error?.status === 400){
-        toast.error("Invalid Email or Password")
+    if(result?.error?.status === 400){
+        toast.error(result?.error?.data?.message as string || "Something Went wrong")
     }
     if (result.error?.status === 401) {
         const res = await fetch("http://localhost:2000/api/v1/auth/refresh-token", {
