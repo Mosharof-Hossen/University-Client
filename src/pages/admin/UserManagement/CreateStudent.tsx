@@ -4,6 +4,7 @@ import PHInput from "../../../components/form/PHInput";
 import { Button, Col, Divider, Row } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
 import { bloodOptions, genderOptions } from "./UserManagementConstant";
+import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
 
 const studentData = {
     password: '12345',
@@ -36,13 +37,23 @@ const studentData = {
             contactNo: '+8801700123456',
             address: 'Plot 45, Block B, Baridhara, Dhaka'
         },
+
         admissionSemester: '67740646c59fb31f556fecbd',
         academicDepartment: '6773fc74c2f17420753f6c01',
         profileImg: 'https://example.com/profiles/hasan.jpg'
     }
 }
 
+
 const CreateStudent = () => {
+
+    const { data: sData, } = useGetAllSemestersQuery(undefined);
+    console.log({ sData });
+    const semesterOptions = sData?.data?.map((item) => ({
+        value: item._id,
+        label: `${item.name} ${item.year}`
+    }))
+
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data);
         // const formData = new FormData();
@@ -65,7 +76,7 @@ const CreateStudent = () => {
                             <PHInput name="name.lastName" type="text" label="Last Name"></PHInput>
                         </Col>
                         <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-                        <PHSelect options={genderOptions} name="gender" label="Gender"></PHSelect>
+                            <PHSelect options={genderOptions} name="gender" label="Gender"></PHSelect>
                         </Col>
                         <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
                             <PHInput name="dateOfBirth" type="date" label="Date of Birth"></PHInput>
@@ -73,6 +84,77 @@ const CreateStudent = () => {
                         <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
                             <PHSelect options={bloodOptions} name="bloodGroup" label="Blood Group"></PHSelect>
                         </Col>
+                    </Row>
+                    <Divider>Contact Info.</Divider>
+                    <Row gutter={8}>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="email" type="text" label="Email"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="contactNo" type="text" label="Contact No"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="emergencyContactNo" type="text" label="Emergency Contact No"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="presentAddress" type="text" label="Present Address"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="permanentAddress" type="text" label="Permanent Address"></PHInput>
+                        </Col>
+                    </Row>
+
+                    <Divider>Guardian Info.</Divider>
+                    <Row gutter={8}>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="guardian.fatherName" type="text" label="Father Name"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="guardian.fatherOccupation" type="text" label="Father Occupation"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="guardian.fatherContactNo" type="text" label="Father ContactNo"></PHInput>
+                        </Col>
+
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="guardian.motherName" type="text" label="Mother Name"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="guardian.motherOccupation" type="text" label="Mother Occupation"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="guardian.motherContactNo" type="text" label="Mother ContactNo"></PHInput>
+                        </Col>
+
+                    </Row>
+
+                    <Divider>Local Guardian Info.</Divider>
+                    <Row gutter={8}>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="localGuardian.name" type="text" label="Name"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="localGuardian.occupation" type="text" label="Occupation"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="localGuardian.contactNo" type="text" label="ContactNo"></PHInput>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHInput name="localGuardian.address" type="text" label="Address"></PHInput>
+                        </Col>
+
+
+                    </Row>
+
+                    <Divider>Academic Info.</Divider>
+                    <Row gutter={8}>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHSelect name="admissionSemester" label="Academic Semester" options={semesterOptions || []}></PHSelect>
+                        </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <PHSelect name="academicDepartment" label="Academic Department" options={[]}></PHSelect>
+                        </Col>
+
                     </Row>
 
 
