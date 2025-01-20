@@ -1,11 +1,12 @@
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHForm";
 import PHInput from "../../../components/form/PHInput";
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
 import { bloodOptions, genderOptions } from "./UserManagementConstant";
 import { useGetAllAcademicDepartmentQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
 import { useAddStudentMutation } from "../../../redux/features/admin/userManagement";
+import { toast } from "sonner";
 
 const studentData = {
     password: '12345',
@@ -47,7 +48,7 @@ const studentData = {
 
 
 const CreateStudent = () => {
-    const [addStudent,{ error }] = useAddStudentMutation();
+    const [addStudent, { error }] = useAddStudentMutation();
     const { data: sData, } = useGetAllSemestersQuery(undefined);
     const { data: dData, } = useGetAllAcademicDepartmentQuery(undefined);
     console.log({ error });
@@ -60,15 +61,23 @@ const CreateStudent = () => {
         label: `${item.name}`
     }))
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<FieldValues> = async(data) => {
         const studentData = {
             password: "123456",
             student: data
         }
+        console.log( data );
         const formData = new FormData();
         formData.append("data", JSON.stringify(studentData));
-        addStudent(formData);
+        formData.append("file", data.profileImg);
+
+        const res = await addStudent(formData);
+        if(res.error){
+            toast.error(res.error.messsage);
+        }else(
+            toast.success("Student Create Successfully")
+        )
+        
     }
     return (
         <Row>
@@ -94,7 +103,25 @@ const CreateStudent = () => {
                         <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
                             <PHSelect options={bloodOptions} name="bloodGroup" label="Blood Group"></PHSelect>
                         </Col>
+                        <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+                            <Controller
+                                name="profileImg"
+                                render={({ field: { onChange, value, ...field } }) => (
+                                    <Form.Item label="Picture">
+                                        <Input
+                                            type="file"
+                                            value={value?.fileName}
+                                            {...field}
+                                            onChange={(e)=>onChange(e.target.files?.[0])}
+                                        />
+                                    </Form.Item>
+                                )}
+                            >
+
+                            </Controller>
+                        </Col>
                     </Row>
+
                     <Divider>Contact Info.</Divider>
                     <Row gutter={8}>
                         <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
