@@ -9,7 +9,11 @@ type TFormProps = {
 }
 
 const PHForm = ({ onSubmit, children, resolver }: TFormProps) => {
-    const methods = useForm({resolver});
+    const methods = useForm({ resolver });
+    const submit: SubmitHandler<FieldValues> = (data) => {
+        onSubmit(data);
+        methods.reset();
+    }
     return (
         <FormProvider {...methods}>
             <Form
@@ -18,7 +22,7 @@ const PHForm = ({ onSubmit, children, resolver }: TFormProps) => {
                     padding: "30px", borderRadius: "15px"
                 }}
                 layout='vertical'
-                onFinish={methods.handleSubmit(onSubmit)}
+                onFinish={methods.handleSubmit(submit)}
             >
                 {children}
             </Form>
