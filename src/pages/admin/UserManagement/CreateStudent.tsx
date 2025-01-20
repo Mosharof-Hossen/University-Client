@@ -8,44 +8,6 @@ import { useGetAllAcademicDepartmentQuery, useGetAllSemestersQuery } from "../..
 import { useAddStudentMutation } from "../../../redux/features/admin/userManagement";
 import { toast } from "sonner";
 
-const studentData = {
-    password: '12345',
-    student: {
-        id: 'ST78901fad8',
-        name: { firstName: 'Forid', middleName: 'Ali', lastName: 'Sheikh' },
-        gender: 'male',
-        dateOfBirth: '1998-02-25',
-        bloodGroup: 'AB+',
-
-
-        email: 'student1@gmail.com',
-        contactNo: '+8801300123456',
-        emergencyContactNo: '+8801400123456',
-        presentAddress: 'Flat 3A, Road 5, Banani, Dhaka',
-        permanentAddress: 'Village 45, Upazila, Khulna',
-
-
-        guardian: {
-            fatherName: 'Akbar Sheikh',
-            fatherOccupation: 'Farmer',
-            fatherContactNo: '+8801500123456',
-            motherName: 'Rokeya Banu',
-            motherOccupation: 'Tailor',
-            motherContactNo: '+8801600123456'
-        },
-        localGuardian: {
-            name: 'Mahmud Hossain',
-            occupation: 'Businessman',
-            contactNo: '+8801700123456',
-            address: 'Plot 45, Block B, Baridhara, Dhaka'
-        },
-
-        admissionSemester: '67740646c59fb31f556fecbd',
-        academicDepartment: '6773fc74c2f17420753f6c01',
-        profileImg: 'https://example.com/profiles/hasan.jpg'
-    }
-}
-
 
 const CreateStudent = () => {
     const [addStudent, { error }] = useAddStudentMutation();

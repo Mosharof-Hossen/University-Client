@@ -5,7 +5,7 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-fo
 type TFormProps = {
     onSubmit: SubmitHandler<FieldValues>;
     children: ReactNode;
-    resolver: any;
+    resolver?: any;
 }
 
 const PHForm = ({ onSubmit, children, resolver }: TFormProps) => {

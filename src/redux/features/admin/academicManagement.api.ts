@@ -25,6 +25,8 @@ const academicSemesterApi = baseApi.injectEndpoints({
                 }
             }
         }),
+
+        
         addAcademicSemester: builder.mutation({
             query: (data) => ({
                 url: "/academic-semesters/create-academic-semester",

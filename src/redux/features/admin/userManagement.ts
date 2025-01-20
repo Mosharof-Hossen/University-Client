@@ -1,3 +1,5 @@
+import { TQueryParams, TResponseRedux } from "../../../types/global";
+import { TStudent } from "../../../types/userManagement.type";
 import { baseApi } from "../../api/baseApi";
 
 const userManagementApi = baseApi.injectEndpoints({
@@ -8,8 +10,32 @@ const userManagementApi = baseApi.injectEndpoints({
                 method: "POST",
                 body: data
             })
+        }),
+
+
+        getAllStudents: builder.query({
+            query: (args) => {
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item: TQueryParams) => {
+                        params.append(item.name, item.value as string)
+                    })
+                }
+                return {
+                    url: "/students",
+                    params: params
+                }
+            },
+            transformResponse: (response: TResponseRedux<TStudent[]>) => {
+                return {
+                    data: response.data,
+                    meta: response.meta
+                }
+
+            }
         })
+
     })
 })
 
-export const { useAddStudentMutation } = userManagementApi;
+export const { useAddStudentMutation, useGetAllStudentsQuery } = userManagementApi;
