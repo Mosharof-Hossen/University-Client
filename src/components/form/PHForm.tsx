@@ -12,7 +12,7 @@ const PHForm = ({ onSubmit, children, resolver }: TFormProps) => {
     const methods = useForm({ resolver });
     const submit: SubmitHandler<FieldValues> = (data) => {
         onSubmit(data);
-        methods.reset();
+        // methods.reset();
     }
     return (
         <FormProvider {...methods}>

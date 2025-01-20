@@ -4,7 +4,8 @@ import PHInput from "../../../components/form/PHInput";
 import { Button, Col, Divider, Row } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
 import { bloodOptions, genderOptions } from "./UserManagementConstant";
-import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useGetAllAcademicDepartmentQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagement";
 
 const studentData = {
     password: '12345',
@@ -46,19 +47,28 @@ const studentData = {
 
 
 const CreateStudent = () => {
-
+    const [addStudent,{ error }] = useAddStudentMutation();
     const { data: sData, } = useGetAllSemestersQuery(undefined);
-    console.log({ sData });
+    const { data: dData, } = useGetAllAcademicDepartmentQuery(undefined);
+    console.log({ error });
     const semesterOptions = sData?.data?.map((item) => ({
         value: item._id,
         label: `${item.name} ${item.year}`
     }))
+    const departmentOptions = dData?.data?.map((item) => ({
+        value: item._id,
+        label: `${item.name}`
+    }))
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data);
-        // const formData = new FormData();
-        // formData.append("data", JSON.stringify(data));
-        // console.log(Object.fromEntries(formData));
+        const studentData = {
+            password: "123456",
+            student: data
+        }
+        const formData = new FormData();
+        formData.append("data", JSON.stringify(studentData));
+        addStudent(formData);
     }
     return (
         <Row>
@@ -152,7 +162,7 @@ const CreateStudent = () => {
                             <PHSelect name="admissionSemester" label="Academic Semester" options={semesterOptions || []}></PHSelect>
                         </Col>
                         <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-                            <PHSelect name="academicDepartment" label="Academic Department" options={[]}></PHSelect>
+                            <PHSelect name="academicDepartment" label="Academic Department" options={departmentOptions || []}></PHSelect>
                         </Col>
 
                     </Row>
