@@ -6,7 +6,7 @@ type TRoute = {
 }
 
 export type TUserPath = {
-    name: string,
+    name?: string,
     path?: string,
     element?: ReactNode,
     children?: TUserPath[]

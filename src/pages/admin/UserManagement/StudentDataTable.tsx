@@ -2,12 +2,14 @@ import { Button, Pagination, Space, Table, TableColumnsType, TableProps } from "
 import { useState } from "react";
 import { TQueryParams } from "../../../types/global";
 import { useGetAllStudentsQuery } from "../../../redux/features/admin/userManagement";
+import { Link, NavLink } from "react-router-dom";
 
 
 interface DataType {
     key: string,
     name: string,
     id: string,
+    email: string,
 }
 
 const columns: TableColumnsType<DataType> = [
@@ -16,18 +18,25 @@ const columns: TableColumnsType<DataType> = [
         dataIndex: 'name',
     },
     {
+        title: 'Email',
+        dataIndex: 'email',
+    },
+    {
         title: 'Roll No.',
         dataIndex: 'id',
     },
     {
         title: 'Action',
-        render: () => (
-            <Space>
-                <Button>Update</Button>
+        render: (item) => {
+            console.log(item);
+            return (<Space>
+                <Link to={`/admin/student-details/${item.key}`}>
+                    <Button>Update</Button>
+                </Link>
                 <Button>Details</Button>
                 <Button>Block</Button>
-            </Space>
-        )
+            </Space>)
+        }
     },
 ];
 
@@ -37,17 +46,17 @@ const StudentDataTable = () => {
     const [params, setParams] = useState<TQueryParams[]>([]);
     const [page, setPage] = useState<number>(1)
     const { data: students, isFetching } = useGetAllStudentsQuery([
-        { name: "limit", value: 10 }, 
-        { name: "page", value: page }, 
-        { name: "sort", value: "id" }, 
+        { name: "limit", value: 10 },
+        { name: "page", value: page },
+        { name: "sort", value: "id" },
 
         ...params]);
-    const tableData = students?.data?.map(({ _id, fullName, id }) => ({
-        key: _id, name: fullName, id,
+    const tableData = students?.data?.map(({ _id, fullName, id, email, }) => ({
+        key: _id, name: fullName, id, email
 
     }))
     const meta = students?.meta;
-    console.log(meta);
+    console.log(students);
 
     const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
         console.log('params', { filters }, { extra });
@@ -75,9 +84,9 @@ const StudentDataTable = () => {
 
                 pageSize={meta?.limit}
                 total={meta?.total}
-                onChange={(value) =>setPage(value)}
+                onChange={(value) => setPage(value)}
                 align="center"
-                style={{marginTop:"20px"}}
+                style={{ marginTop: "20px" }}
             ></Pagination>
         </div>
     );

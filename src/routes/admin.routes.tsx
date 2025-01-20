@@ -9,6 +9,7 @@ import CreateAdmin from "../pages/admin/UserManagement/CreateAdmin";
 import CreateFaculty from "../pages/admin/UserManagement/CreateFaculty";
 import CreateStudent from "../pages/admin/UserManagement/CreateStudent";
 import StudentDataTable from "../pages/admin/UserManagement/StudentDataTable";
+import StudentDetails from "../pages/admin/UserManagement/StudentDetails";
 
 
 
@@ -76,6 +77,10 @@ export const adminPaths = [
                 name: "All Students",
                 path: "all-student",
                 element: <StudentDataTable></StudentDataTable>
+            },
+            {
+                path: "student-details/:studentId",
+                element: <StudentDetails></StudentDetails>
             },
         ]
     }
