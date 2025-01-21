@@ -1,30 +1,32 @@
+import { TRegisteredSemester } from "../../../types/courseManagement.type";
+import { TQueryParams, TResponseRedux } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 
 const courseManagementApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        // getAllSemesters: builder.query({
-        //     query: (args) => {
-        //         const params = new URLSearchParams();
-        //         console.log(args);
-        //         if (args) {
-        //             args.forEach((item: TQueryParams) => {
-        //                 params.append(item.name, item.value as string);
-        //             });
-        //         }
-        //         return {
-        //             url: "/academic-semesters",
-        //             params: params
-        //         }
-        //     },
-        //     transformResponse: (res: TResponseRedux<TAcademicSemester[]>) => {
-        //         return {
-        //             data: res.data,
-        //             meta: res.meta
-        //         }
-        //     }
-        // }),
+        getAllRegisteredSemesters: builder.query({
+            query: (args) => {
+                const params = new URLSearchParams();
+                console.log(args);
+                if (args) {
+                    args.forEach((item: TQueryParams) => {
+                        params.append(item.name, item.value as string);
+                    });
+                }
+                return {
+                    url: "/semester-registration",
+                    params: params
+                }
+            },
+            transformResponse: (res: TResponseRedux<TRegisteredSemester[]>) => {
+                return {
+                    data: res?.data,
+                    meta: res?.meta
+                }
+            }
+        }),
 
-        
+
         addRegistrationSemester: builder.mutation({
             query: (data) => ({
                 url: "/semester-registration/create-semester-registration",
@@ -33,7 +35,7 @@ const courseManagementApi = baseApi.injectEndpoints({
             })
         }),
 
-        
+
 
 
 
@@ -42,4 +44,4 @@ const courseManagementApi = baseApi.injectEndpoints({
 })
 
 
-export const {useAddRegistrationSemesterMutation} = courseManagementApi;
+export const { useAddRegistrationSemesterMutation, useGetAllRegisteredSemestersQuery } = courseManagementApi;

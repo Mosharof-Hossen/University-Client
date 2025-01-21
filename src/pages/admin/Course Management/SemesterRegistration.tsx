@@ -7,12 +7,8 @@ import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicM
 import { useAddRegistrationSemesterMutation } from "../../../redux/features/admin/courseManagement.api";
 import { toast } from "sonner";
 import PHDatePicker from "../../../components/form/PHDatePicker";
+import { TResponse } from "../../../types/global";
 
-// name: 'Autumn' | 'Summer' | 'Fall';
-// code: '01' | '02' | '03';
-// "year": "2025",
-//     "startMonth": "January",
-//         "endMonth": "July"
 
 const statusOptions = [
     { value: 'UPCOMING', label: 'UPCOMING' },
