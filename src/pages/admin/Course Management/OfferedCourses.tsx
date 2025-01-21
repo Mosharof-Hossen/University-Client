@@ -1,0 +1,11 @@
+import React from 'react';
+
+const OfferedCourses = () => {
+    return (
+        <div>
+            Offered Courses
+        </div>
+    );
+};
+
+export default OfferedCourses;
