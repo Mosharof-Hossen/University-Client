@@ -21,6 +21,7 @@ const PHForm = ({ onSubmit, children, resolver }: TFormProps) => {
                     border: "1px solid gray",
                     padding: "30px", borderRadius: "15px"
                 }}
+                
                 layout='vertical'
                 onFinish={methods.handleSubmit(submit)}
             >

@@ -1,4 +1,4 @@
-import { TRegisteredSemester } from "../../../types/courseManagement.type";
+import { TCourse, TRegisteredSemester } from "../../../types/courseManagement.type";
 import { TQueryParams, TResponseRedux } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 
@@ -17,9 +17,9 @@ const courseManagementApi = baseApi.injectEndpoints({
                     url: "/semester-registration",
                     params: params
                 }
-            
+
             },
-            providesTags:["semester"],
+            providesTags: ["semester"],
             transformResponse: (res: TResponseRedux<TRegisteredSemester[]>) => {
                 return {
                     data: res?.data,
@@ -35,7 +35,7 @@ const courseManagementApi = baseApi.injectEndpoints({
                 method: "POST",
                 body: data
             }),
-            invalidatesTags:["semester"]
+            invalidatesTags: ["semester"]
 
         }),
 
@@ -46,10 +46,42 @@ const courseManagementApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 body: args.data
             }),
-            invalidatesTags:["semester"]
+            invalidatesTags: ["semester"]
         }),
 
+        // Course 
+        getAllCourses: builder.query({
+            query: (args) => {
+                const params = new URLSearchParams();
+                console.log(args);
+                if (args) {
+                    args.forEach((item: TQueryParams) => {
+                        params.append(item.name, item.value as string);
+                    });
+                }
+                return {
+                    url: "/courses",
+                    params: params
+                }
 
+            },
+            providesTags: ["semester"],
+            transformResponse: (res: TResponseRedux<TCourse[]>) => {
+                return {
+                    data: res?.data,
+                    meta: res?.meta
+                }
+            }
+        }),
+
+        addCourse: builder.mutation({
+            query: (data) => ({
+                url: `/courses/create-course`,
+                method: "POST",
+                body: data
+            }),
+            invalidatesTags: ["semester"]
+        }),
 
 
 
@@ -58,4 +90,4 @@ const courseManagementApi = baseApi.injectEndpoints({
 })
 
 
-export const { useAddRegistrationSemesterMutation, useUpdateRegisteredSemesterMutation, useGetAllRegisteredSemestersQuery } = courseManagementApi;
+export const { useAddCourseMutation, useGetAllCoursesQuery, useAddRegistrationSemesterMutation, useUpdateRegisteredSemesterMutation, useGetAllRegisteredSemestersQuery } = courseManagementApi;
