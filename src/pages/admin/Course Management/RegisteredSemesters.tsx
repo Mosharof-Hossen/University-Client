@@ -1,8 +1,9 @@
 
 import { Button, Dropdown, Space, Table, TableColumnsType, TableProps, Tag } from "antd";
 
-import { useGetAllRegisteredSemestersQuery } from "../../../redux/features/admin/courseManagement.api";
+import { useGetAllRegisteredSemestersQuery, useUpdateRegisteredSemesterMutation } from "../../../redux/features/admin/courseManagement.api";
 import moment from "moment";
+import { useState } from "react";
 
 
 interface DataType {
@@ -15,23 +16,24 @@ interface DataType {
 
 const items = [
     {
-        label:"Upcoming",
-        key:"UPCOMING"
+        label: "Upcoming",
+        key: "UPCOMING"
     },
     {
-        label:"Ongoing",
-        key:"ONGOING"
+        label: "Ongoing",
+        key: "ONGOING"
     },
     {
-        label:"Ended",
-        key:"ENDED"
+        label: "Ended",
+        key: "ENDED"
     },
 ]
 
 
 const RegisteredSemesters = () => {
+    const [semesterId, setSemesterId] = useState("");
+    const [updateRegisteredSemester] = useUpdateRegisteredSemesterMutation();
     const { data: registeredSemesters, isFetching } = useGetAllRegisteredSemestersQuery([]);
-    console.log(registeredSemesters);
     const tableData = registeredSemesters?.data?.map(({ _id, academicSemester, status, startDate, endDate }) => ({
         key: _id, name: academicSemester.name, status,
         startDate: moment(new Date(startDate)).format("MMMM"),
@@ -57,7 +59,7 @@ const RegisteredSemesters = () => {
                 if (item === "ENDED") {
                     color = "red"
                 }
-    
+
                 return <Tag color={color}>{item}</Tag>
             }
         },
@@ -69,27 +71,37 @@ const RegisteredSemesters = () => {
             title: 'End Date',
             dataIndex: 'endDate',
         },
-    
+
         {
             title: 'Action',
             render: (item) => {
-                console.log(item);
-                return (<Tag>
-                    <Dropdown menu={menuProps} placement="bottom" arrow>Update</Dropdown>
-                </Tag>)
+                return (<>
+                    <Dropdown menu={menuProps} placement="bottom" trigger={['click']} arrow>
+                        <Button onClick={() => setSemesterId(item.key)}>Update</Button>
+                    </Dropdown>
+                </>)
             }
         },
     ];
-    
 
-    const handleStatus = (data)=>{
-        console.log(data);
+
+    const handleStatusUpdate = (data) => {
+        console.log("semesterId", semesterId);
+        console.log("New status", data.key);
+        const updateInfo = {
+            id: semesterId,
+            data:{
+                status:data.key 
+            }
+        }
+        console.log(updateInfo);
+        updateRegisteredSemester(updateInfo)
     }
 
     const menuProps = {
         items,
-        onClick:  handleStatus ,
-      };
+        onClick: handleStatusUpdate,
+    };
     const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
 
     };
