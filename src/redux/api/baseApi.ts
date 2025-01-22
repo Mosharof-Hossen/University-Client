@@ -19,7 +19,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs, BaseQueryApi, DefinitionType> = async (args, api, extraOptions): Promise<any> => {
     let result = await baseQuery(args, api, extraOptions);
     // console.log(result);
-    if(result?.error?.status === 400){
+    if (result?.error?.status === 400) {
         toast.error(result?.error?.data?.message as string || "Something Went wrong")
     }
     if (result.error?.status === 401) {
@@ -46,5 +46,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<FetchArgs, BaseQueryApi, Definition
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: baseQueryWithRefreshToken,
+    tagTypes: ["semester"],
     endpoints: () => ({})
 })
