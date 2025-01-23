@@ -5,7 +5,9 @@ import { adminPaths } from '../../routes/admin.routes';
 import { facultyPaths } from '../../routes/faculty.routes';
 import { studentPaths } from '../../routes/student.route';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { logout, selectCurrentUser } from '../../redux/features/auth/authSlice';
+import { logout, TUser, useCurrentToken } from '../../redux/features/auth/authSlice';
+import { JwtPayload } from 'jwt-decode';
+import { verifyToken } from '../../utils/verifyToken';
 
 const { Sider } = Layout;
 const userRole = {
@@ -15,11 +17,16 @@ const userRole = {
 }
 
 const Sidebar = () => {
-    const dispatch = useAppDispatch();
-    const user = useAppSelector(selectCurrentUser);
+    const token = useAppSelector(useCurrentToken);
+        const dispatch = useAppDispatch();
+        let user ;
+        if(token){
+            user = verifyToken(token) as JwtPayload;
+        }
+        console.log(user);
 
     let sideBarItems;
-    switch (user!.role) {
+    switch ((user as TUser)!.role) {
         case userRole.ADMIN:
             sideBarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN)
             break;
