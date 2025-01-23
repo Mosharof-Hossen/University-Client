@@ -5,7 +5,7 @@ import ProtectedRoute from "./routes/ProtectedRoute"
 function App() {
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute role= {undefined}>
       <MainLayout></MainLayout>
     </ProtectedRoute>
   )
