@@ -21,10 +21,16 @@ const Login = () => {
         }
         console.log(userInfo);
         const res = await login(userInfo).unwrap();
+        console.log({res});
+        
         const user = verifyToken(res.data.accessToken) as TUser;
         console.log(user);
         dispatch(setUser({ user: user, token: res.data.accessToken }))
-        navigate(`/${user.role}/dashboard`)
+        if(res?.data?.needsPasswordChange){
+            navigate(`/change-password`)
+        }else{
+            navigate(`/${user.role}/dashboard`)
+        }
         toast('Successfully Login');
     };
 
